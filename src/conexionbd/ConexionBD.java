@@ -20,14 +20,18 @@ public class ConexionBD {
     Connection con = null;
     public ConexionBD()
     {
-        
+        realizarConexion();
+        if(registrarEstudiantes("207460255","Jaki","cobano"))
+        {
+            System.out.println("Registro Correcto");
+        }
     }
     public void realizarConexion()
     {
         try {
             String userName = "root";
             String password = "";
-            String url = "jdbc:mysql://localhost:3307/PracticaBD";
+            String url = "jdbc:mysql://localhost:3306/matricula";
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             con = DriverManager.getConnection(url, userName, password);
             System.out.println("Conexión Realizada");
@@ -37,14 +41,14 @@ public class ConexionBD {
             e.printStackTrace();
         } 
     }
-    public boolean registrarEmpleado(String cedula, String nombre, String direccion, int edad)
+    public boolean registrarEstudiantes(String cedula, String nombre, String direccion)
     {
         ResultSet rs = null;
         Statement cmd = null;
         boolean ejecuto;
         try {
                 cmd = con.createStatement();
-                ejecuto = cmd.execute("INSERT INTO Empleados(Cedula, Nombre, Direccion, Edad) VALUES ("+cedula+","+nombre+","+direccion+","+edad+")");
+                ejecuto = cmd.execute("INSERT INTO estudiantes(cedula, nombre, direccion) VALUES ('"+cedula+"','"+nombre+"','"+direccion+"')");
                 
                return true;
                // rs.close();
@@ -55,7 +59,7 @@ public class ConexionBD {
             return false;
         }
         
-    }
+ 
     public void consultarEmpleado(String cedula)
     {
         ResultSet rs = null;
